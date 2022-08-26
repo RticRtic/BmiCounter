@@ -1,3 +1,4 @@
+import 'package:bmi_counter_new/main.dart';
 import 'package:bmi_counter_new/person_model.dart';
 import 'package:flutter/material.dart';
 
@@ -48,35 +49,36 @@ class _PersonResultListState extends State<PersonResultList> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: const Text(
-            "RESULT",
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-          titleTextStyle: const TextStyle(
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const HomePage(
+                    bmiResult: "",
+                    bmiUnderlineText: "",
+                    bmiValue: 0,
+                    heightOfPerson: "",
+                    weightOfPerson: "",
+                    nameOfperson: "",
+                    resultList: [],
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(Icons.arrow_back_ios),
           ),
         ),
-        body: Container(
-          child: ElevatedButton(
-              onPressed: () {
-                print(widget.resultList);
-              },
-              child: null),
+        body: ListView.builder(
+          itemCount: itemCount,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              horizontalTitleGap: 110.0,
+              title: Text("BMI"),
+              leading: Text("HEJ"),
+              trailing: Text("STATUS"),
+            );
+          },
         ),
-        // body: ListView.builder(
-        //   itemCount: itemCount,
-        //   itemBuilder: (BuildContext context, index) {
-        //     return ListTile(
-        //       title: Text(
-        //         widget.resultList.length.toString(),
-        //         style: TextStyle(color: Colors.white),
-        //       ),
-        //     );
-        //   },
-        // ),
       ),
     );
   }

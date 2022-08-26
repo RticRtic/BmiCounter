@@ -59,6 +59,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Person> person = [];
+  List<Widget> pages = [
+    BmiResultList(resultList: []),
+    HomePage(
+        bmiResult: "",
+        bmiUnderlineText: "",
+        bmiValue: 0,
+        heightOfPerson: "",
+        weightOfPerson: "",
+        nameOfperson: "",
+        resultList: []),
+  ];
   int currentPage = 0;
 
   startModalBottomSheet(BuildContext context) {
@@ -76,12 +87,6 @@ class _HomePageState extends State<HomePage> {
       person.add(newPerson);
     });
   }
-
-  // void navigationSelection(int index) {
-  //   setState(() {
-  //     currentPage = index;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -213,9 +218,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(top: 40.0),
+              padding: EdgeInsets.only(bottom: 20.0),
             ),
-            ElevatedButton.icon(
+            ElevatedButton(
+              child: Text("RESULTS"),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -225,29 +231,29 @@ class _HomePageState extends State<HomePage> {
                 );
                 print(widget.resultList);
               },
-              icon: const Icon(Icons.person),
-              label: const Text("Check Out the List"),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 212.0),
-            ),
-            BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.white.withOpacity(0.009),
-              selectedItemColor: Colors.green,
-              unselectedItemColor: Colors.transparent.withOpacity(0.3),
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.list), label: "Result List"),
-              ],
+              style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.green,
+                  primary: Colors.white.withOpacity(0.3),
+                  elevation: 0.9),
             ),
           ],
+        ),
+        bottomNavigationBar: NavigationBar(
+          destinations: const [
+            NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+            NavigationDestination(icon: Icon(Icons.list), label: "Results"),
+          ],
+          onDestinationSelected: (int index) {
+            setState(() {
+              currentPage = index;
+            });
+          },
+          selectedIndex: currentPage,
         ),
         floatingActionButton: Container(
           height: 200,
           width: 200,
-          margin: const EdgeInsets.only(bottom: 65.0),
+          margin: const EdgeInsets.only(bottom: 88.0),
           child: FittedBox(
             child: FloatingActionButton(
               onPressed: () => startModalBottomSheet(context),
