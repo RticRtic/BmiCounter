@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bmi_counter_new/bmi_result_list.dart';
 import 'package:bmi_counter_new/new_person_info.dart';
 import 'package:bmi_counter_new/person_model.dart';
@@ -16,8 +18,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "BMI COUNTER",
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          color: Color.fromRGBO(255, 19, 4, 0),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white.withOpacity(0.009),
         ),
       ),
       home: const HomePage(
@@ -57,6 +59,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Person> person = [];
+  int currentPage = 0;
 
   startModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -73,6 +76,12 @@ class _HomePageState extends State<HomePage> {
       person.add(newPerson);
     });
   }
+
+  // void navigationSelection(int index) {
+  //   setState(() {
+  //     currentPage = index;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -219,17 +228,26 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.person),
               label: const Text("Check Out the List"),
             ),
-          ],
-        ),
-        bottomNavigationBar: NavigationBar(
-          destinations: const [
-            NavigationDestination(icon: Icon(Icons.home), label: "HomePage"),
-            NavigationDestination(icon: Icon(Icons.person), label: "HomePage"),
+            const Padding(
+              padding: EdgeInsets.only(top: 212.0),
+            ),
+            BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: Colors.white.withOpacity(0.009),
+              selectedItemColor: Colors.green,
+              unselectedItemColor: Colors.transparent.withOpacity(0.3),
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.list), label: "Result List"),
+              ],
+            ),
           ],
         ),
         floatingActionButton: Container(
           height: 200,
           width: 200,
+          margin: const EdgeInsets.only(bottom: 65.0),
           child: FittedBox(
             child: FloatingActionButton(
               onPressed: () => startModalBottomSheet(context),
