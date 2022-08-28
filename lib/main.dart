@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bmi_counter_new/bmi_result_list.dart';
 import 'package:bmi_counter_new/new_person_info.dart';
 import 'package:bmi_counter_new/person_model.dart';
@@ -16,8 +18,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "BMI COUNTER",
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          color: Color.fromRGBO(255, 19, 4, 0),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white.withOpacity(0.009),
         ),
       ),
       home: const HomePage(
@@ -57,6 +59,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Person> person = [];
+  // List<Widget> pages = [
+  //   BmiResultList(resultList: []),
+  //   HomePage(
+  //       bmiResult: "",
+  //       bmiUnderlineText: "",
+  //       bmiValue: 0,
+  //       heightOfPerson: "",
+  //       weightOfPerson: "",
+  //       nameOfperson: "",
+  //       resultList: []),
+  // ];
+  int currentPage = 0;
 
   startModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -88,12 +102,21 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {},
-          //     icon: const Icon(Icons.arrow_forward_ios),
-          //   ),
-          // ],
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => BmiResultList(
+                      resultList: widget.resultList,
+                      nameOfPerson: widget.nameOfperson,
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.list),
+            ),
+          ],
           title: const Text(
             "Bmi Counter",
             style: TextStyle(
@@ -204,32 +227,26 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(top: 40.0),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        BmiResultList(resultList: widget.resultList),
-                  ),
-                );
-                print(widget.resultList);
-              },
-              icon: const Icon(Icons.person),
-              label: const Text("Check Out the List"),
+              padding: EdgeInsets.only(bottom: 20.0),
             ),
           ],
         ),
         bottomNavigationBar: NavigationBar(
           destinations: const [
-            NavigationDestination(icon: Icon(Icons.home), label: "HomePage"),
-            NavigationDestination(icon: Icon(Icons.person), label: "HomePage"),
+            NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+            NavigationDestination(icon: Icon(Icons.list), label: "Results"),
           ],
+          onDestinationSelected: (int index) {
+            setState(() {
+              currentPage = index;
+            });
+          },
+          selectedIndex: currentPage,
         ),
         floatingActionButton: Container(
           height: 200,
           width: 200,
+          margin: const EdgeInsets.only(bottom: 120.0),
           child: FittedBox(
             child: FloatingActionButton(
               onPressed: () => startModalBottomSheet(context),
