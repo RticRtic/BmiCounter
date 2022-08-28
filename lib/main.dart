@@ -59,17 +59,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Person> person = [];
-  List<Widget> pages = [
-    BmiResultList(resultList: []),
-    HomePage(
-        bmiResult: "",
-        bmiUnderlineText: "",
-        bmiValue: 0,
-        heightOfPerson: "",
-        weightOfPerson: "",
-        nameOfperson: "",
-        resultList: []),
-  ];
+  // List<Widget> pages = [
+  //   BmiResultList(resultList: []),
+  //   HomePage(
+  //       bmiResult: "",
+  //       bmiUnderlineText: "",
+  //       bmiValue: 0,
+  //       heightOfPerson: "",
+  //       weightOfPerson: "",
+  //       nameOfperson: "",
+  //       resultList: []),
+  // ];
   int currentPage = 0;
 
   startModalBottomSheet(BuildContext context) {
@@ -102,12 +102,21 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {},
-          //     icon: const Icon(Icons.arrow_forward_ios),
-          //   ),
-          // ],
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => BmiResultList(
+                      resultList: widget.resultList,
+                      nameOfPerson: widget.nameOfperson,
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.list),
+            ),
+          ],
           title: const Text(
             "Bmi Counter",
             style: TextStyle(
@@ -220,22 +229,6 @@ class _HomePageState extends State<HomePage> {
             const Padding(
               padding: EdgeInsets.only(bottom: 20.0),
             ),
-            ElevatedButton(
-              child: Text("RESULTS"),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        BmiResultList(resultList: widget.resultList),
-                  ),
-                );
-                print(widget.resultList);
-              },
-              style: ElevatedButton.styleFrom(
-                  shadowColor: Colors.green,
-                  primary: Colors.white.withOpacity(0.3),
-                  elevation: 0.9),
-            ),
           ],
         ),
         bottomNavigationBar: NavigationBar(
@@ -253,7 +246,7 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: Container(
           height: 200,
           width: 200,
-          margin: const EdgeInsets.only(bottom: 88.0),
+          margin: const EdgeInsets.only(bottom: 120.0),
           child: FittedBox(
             child: FloatingActionButton(
               onPressed: () => startModalBottomSheet(context),

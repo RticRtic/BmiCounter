@@ -2,12 +2,14 @@ import 'package:bmi_counter_new/main.dart';
 import 'package:bmi_counter_new/person_model.dart';
 import 'package:flutter/material.dart';
 
+import 'list_model.dart';
+
 int itemCount = 10;
 
 //* List of BMI results.
 
 class BmiResultList extends StatelessWidget {
-  const BmiResultList({super.key, required resultList});
+  const BmiResultList({super.key, required resultList, required nameOfPerson});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class BmiResultList extends StatelessWidget {
       ),
       home: const PersonResultList(
         resultList: [],
+        nameOfPerson: "",
       ),
     );
   }
@@ -28,13 +31,16 @@ class BmiResultList extends StatelessWidget {
 
 class PersonResultList extends StatefulWidget {
   final List resultList;
-  const PersonResultList({super.key, required this.resultList});
+  final String nameOfPerson;
+  const PersonResultList(
+      {super.key, required this.resultList, required this.nameOfPerson});
 
   @override
   State<PersonResultList> createState() => _PersonResultListState();
 }
 
 class _PersonResultListState extends State<PersonResultList> {
+  List<ListModel> list = [];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,7 +80,7 @@ class _PersonResultListState extends State<PersonResultList> {
             return ListTile(
               horizontalTitleGap: 110.0,
               title: Text("BMI"),
-              leading: Text("HEJ"),
+              leading: Text("NAME"),
               trailing: Text("STATUS"),
             );
           },
